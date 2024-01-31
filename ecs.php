@@ -12,51 +12,49 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesOrderFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->paths([
+return ECSConfig::configure()
+    ->withPaths([
         __DIR__ . '/src',
         __DIR__.'/tests',
-    ]);
-
-    $ecsConfig->parallel();
-    $ecsConfig->sets([SetList::PSR_12, SetList::SYMPLIFY, SetList::STRICT]);
-    $ecsConfig->rule(DeclareStrictTypesFixer::class);
-    $ecsConfig->rule(OrderedClassElementsFixer::class);
-
-    $ecsConfig->ruleWithConfiguration(VisibilityRequiredFixer::class, [
+    ])
+    ->withParallel()
+    ->withSets([SetList::PSR_12, SetList::CLEAN_CODE, SetList::STRICT])
+    ->withRules([
+        DeclareStrictTypesFixer::class,
+        OrderedClassElementsFixer::class,
+    ])
+    ->withConfiguredRule(VisibilityRequiredFixer::class, [
         'elements' => [
             'const',
             'property',
             'method',
         ],
-    ]);
-    $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, ['syntax' => 'short']);
-    $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, ['spacing' => 'none']);
-    $ecsConfig->ruleWithConfiguration(PhpdocAddMissingParamAnnotationFixer::class, ['only_untyped' => false]);
-
-    $ecsConfig->ruleWithConfiguration(PhpdocTypesOrderFixer::class, [
+    ])
+    ->withConfiguredRule(ArraySyntaxFixer::class, ['syntax' => 'short'])
+    ->withConfiguredRule(ConcatSpaceFixer::class, ['spacing' => 'none'])
+    ->withConfiguredRule(PhpdocAddMissingParamAnnotationFixer::class, ['only_untyped' => false])
+    ->withConfiguredRule(PhpdocTypesOrderFixer::class, [
         'null_adjustment' => 'always_last',
         'sort_algorithm' => 'none',
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(YodaStyleFixer::class, [
+    ])
+    ->withConfiguredRule(YodaStyleFixer::class, [
         'equal' => false,
         'identical' => false,
         'always_move_variable' => false,
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(OrderedImportsFixer::class, [
+    ])
+    ->withConfiguredRule(OrderedImportsFixer::class, [
         'imports_order' => [
             'class',
             'function',
             'const',
         ],
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(BlankLineBeforeStatementFixer::class, [
+    ])
+    ->withConfiguredRule(BlankLineBeforeStatementFixer::class, [
         'statements' => [
             'case',
             'continue',
@@ -78,6 +76,6 @@ return static function (ECSConfig $ecsConfig): void {
             'try',
             'while',
             'yield',
-        ],
-    ]);
-};
+    ]])
+    ->withSkip([MethodChainingNewlineFixer::class, LineLengthFixer::class])
+;
