@@ -10,12 +10,12 @@ use App\Domain\UserTest\UserAnswer;
 final readonly class UserTestStat
 {
     /**
-     * @param AnswerDetails[] $correct
-     * @param AnswerDetails[] $incorrect
+     * @param AnswerDetails[] $correctAnswerDetails
+     * @param AnswerDetails[] $incorrectAnswerDetails
      */
     public function __construct(
-        public array $correct,
-        public array $incorrect,
+        public array $correctAnswerDetails,
+        public array $incorrectAnswerDetails,
     ) {
     }
 
@@ -30,18 +30,33 @@ final readonly class UserTestStat
         $incorrect = [];
 
         foreach ($data as $entry) {
-            foreach ($entry['answers'] as $answer) {
-                $question = $entry['question'];
+            $question = $entry['question'];
 
+            foreach ($entry['answers'] as $answer) {
                 if (!$answer->isCorrect()) {
                     $incorrect[] = new AnswerDetails($question, $entry['answers'], $question->correctAnswers());
                     continue 2;
                 }
-
-                $correct[] = new AnswerDetails($question, $entry['answers'], $question->correctAnswers());
             }
+
+            $correct[] = new AnswerDetails($question, $entry['answers'], $question->correctAnswers());
         }
 
         return new self($correct, $incorrect);
+    }
+
+    public function correctAnsweredCount(): int
+    {
+        return count($this->correctAnswerDetails);
+    }
+
+    public function incorrectAnsweredCount(): int
+    {
+        return count($this->incorrectAnswerDetails);
+    }
+
+    public function answeredCount(): int
+    {
+        return count($this->incorrectAnswerDetails) + count($this->correctAnswerDetails);
     }
 }
