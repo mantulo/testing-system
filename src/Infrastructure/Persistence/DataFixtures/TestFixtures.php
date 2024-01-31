@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\DataFixtures;
 
-use App\Domain\Test\Question;
 use App\Domain\Test\Test;
 use App\Domain\Test\TestRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class TestFixtures extends Fixture
+final class TestFixtures extends Fixture
 {
     public function __construct(
         private readonly TestRepository $testRepository,
@@ -68,7 +67,7 @@ class TestFixtures extends Fixture
         $test = new Test($id, []);
 
         foreach ($questions as $item) {
-            $question = new Question($test, $item['text'], []);
+            $question = $test->addQuestion($item['text']);
 
             foreach ($item['correct_answers'] as $answer) {
                 $question->addAnswer($answer, correct: true);
@@ -77,8 +76,6 @@ class TestFixtures extends Fixture
             foreach ($item['incorrect_answers'] as $answer) {
                 $question->addAnswer($answer, correct: false);
             }
-
-            $manager->persist($question);
         }
 
         $manager->persist($test);

@@ -60,4 +60,12 @@ class Test
     {
         return $this->createdAt;
     }
+
+    public function addQuestion(string $text): Question
+    {
+        $question = new Question($this, $text, []);
+        $this->questions->add($question);
+
+        return $question;
+    }
 }

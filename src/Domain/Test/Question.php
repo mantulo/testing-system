@@ -62,9 +62,12 @@ class Question
         return $this->text;
     }
 
-    public function addAnswer(string $text, bool $correct): void
+    public function addAnswer(string $text, bool $correct): Answer
     {
-        $this->answers->add(new Answer($this, $text, $correct));
+        $answer = new Answer($this, $text, $correct);
+        $this->answers->add($answer);
+
+        return $answer;
     }
 
     /**
