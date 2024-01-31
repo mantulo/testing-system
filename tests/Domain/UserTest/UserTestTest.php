@@ -21,13 +21,14 @@ final class UserTestTest extends TestCase
 {
     public function testItAcceptSingleCorrectAnswer(): void
     {
-        $testId = TestId::fromString($this->nextUuid());
+        $repository = $this->fakeTestRepository();
+        $testId = $repository->nextId();
 
         $test = new Test($testId, []);
         $question1 = $test->addQuestion('1 + 1');
 
-        // required to group answers by question id
-        $this->bindIncrementalIdToQuestionHook($question1);
+        // simulates generation of question ids
+        $repository->save($test);
 
         $correctAnswer1 = $question1->addAnswer('2', correct: true);
         $correctAnswer2 = $question1->addAnswer('2 + 0', correct: true);
@@ -35,7 +36,7 @@ final class UserTestTest extends TestCase
         $invalidAnswer2 = $question1->addAnswer('3', correct: false);
 
         $userTest = new UserTest(
-            UserTestId::fromString($this->nextUuid()),
+            $this->nextUserTestId(),
             $this->user(),
             $test
         );
@@ -50,13 +51,14 @@ final class UserTestTest extends TestCase
 
     public function testItAcceptMultipleCorrectAnswer(): void
     {
-        $testId = TestId::fromString($this->nextUuid());
+        $repository = $this->fakeTestRepository();
+        $testId = $repository->nextId();
 
         $test = new Test($testId, []);
         $question1 = $test->addQuestion('2 + 2');
 
-        // required to group answers by question id
-        $this->bindIncrementalIdToQuestionHook($question1);
+        // simulates generation of question ids
+        $repository->save($test);
 
         $invalidAnswer1 = $question1->addAnswer('2', correct: false);
         $invalidAnswer2 = $question1->addAnswer('3', correct: false);
@@ -64,7 +66,7 @@ final class UserTestTest extends TestCase
         $correctAnswer2 = $question1->addAnswer('4 + 0', correct: true);
 
         $userTest = new UserTest(
-            UserTestId::fromString($this->nextUuid()),
+            $this->nextUserTestId(),
             $this->user(),
             $test
         );
@@ -81,13 +83,14 @@ final class UserTestTest extends TestCase
 
     public function testItShouldAnswerWithCorrectAndIncorrectOption(): void
     {
-        $testId = TestId::fromString($this->nextUuid());
+        $repository = $this->fakeTestRepository();
+        $testId = $repository->nextId();
 
         $test = new Test($testId, []);
         $question1 = $test->addQuestion('2 + 2');
 
-        // required to group answers by question id
-        $this->bindIncrementalIdToQuestionHook($question1);
+        // simulates generation of question ids
+        $repository->save($test);
 
         $invalidAnswer1 = $question1->addAnswer('2', correct: false);
         $invalidAnswer2 = $question1->addAnswer('3', correct: false);
@@ -95,7 +98,7 @@ final class UserTestTest extends TestCase
         $correctAnswer2 = $question1->addAnswer('4 + 0', correct: true);
 
         $userTest = new UserTest(
-            UserTestId::fromString($this->nextUuid()),
+            $this->nextUserTestId(),
             $this->user(),
             $test
         );
@@ -113,7 +116,9 @@ final class UserTestTest extends TestCase
 
     public function testItShouldThrowsAnExceptionIfUserTriesFinishIncompleteTest(): void
     {
-        $testId = TestId::fromString($this->nextUuid());
+        $repository = $this->fakeTestRepository();
+
+        $testId = $repository->nextId();
         $test = new Test($testId, []);
 
         $question1 = $test->addQuestion('1 + 1');
@@ -121,10 +126,10 @@ final class UserTestTest extends TestCase
         $question1->addAnswer('3', correct: false);
         $question1->addAnswer('3', correct: false);
 
-        $this->bindIncrementalIdToQuestionHook($question1);
+        $repository->save($test);
 
         $userTest = new UserTest(
-            UserTestId::fromString($this->nextUuid()),
+            $this->nextUserTestId(),
             $this->user(),
             $test
         );
@@ -139,23 +144,22 @@ final class UserTestTest extends TestCase
         $userTest->markAsFinished();
     }
 
-    private function nextUuid(): string
+    private function fakeTestRepository(): FakeTestRepository
     {
-        return (new UuidFactory())->uuid7()->toString();
+        return new FakeTestRepository(
+            new UuidFactory()
+        );
     }
 
-    public function user(): User
+    private function user(): User
     {
         return new User('John', 'Doe');
     }
 
-    public function bindIncrementalIdToQuestionHook(Question ...$questions): void
+    private function nextUserTestId(): UserTestId
     {
-        foreach ($questions as $id => $question) {
-            $reflection = new \ReflectionClass(get_class($question));
-            $property = $reflection->getProperty('id');
-            $property->setAccessible(true);
-            $property->setValue($question, (int) $id + 1);
-        }
+        return UserTestId::fromString(
+            (new UuidFactory())->uuid7()->toString()
+        );
     }
 }
