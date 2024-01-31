@@ -25,12 +25,20 @@ class Question
     #[Column(type: 'string', length: 255)]
     private string $text;
 
+    /**
+     * @var Collection<int, Answer>
+     */
     #[OneToMany(mappedBy: 'question', targetEntity: Answer::class, cascade: ['persist'])]
     private Collection $answers;
 
     #[ManyToOne(targetEntity: Test::class, inversedBy: 'questions')]
     private Test $test;
 
+    /**
+     * @param Test     $test
+     * @param string   $text
+     * @param Answer[] $answers
+     */
     public function __construct(
         Test $test,
         string $text,

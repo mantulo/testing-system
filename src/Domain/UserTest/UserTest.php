@@ -31,6 +31,9 @@ class UserTest
     #[ManyToOne(targetEntity: Test::class)]
     private Test $test;
 
+    /**
+     * @var Collection<int, UserAnswer>
+     */
     #[OneToMany(mappedBy: 'test', targetEntity: UserAnswer::class, cascade: ['persist'])]
     private Collection $answers;
 
