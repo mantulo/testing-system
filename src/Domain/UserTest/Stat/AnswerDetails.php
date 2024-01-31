@@ -10,6 +10,11 @@ use App\Domain\UserTest\UserAnswer;
 
 final class AnswerDetails
 {
+    /**
+     * @param Question     $question
+     * @param UserAnswer[] $acceptedAnswers
+     * @param Answer[]     $expectedAnswers
+     */
     public function __construct(
         public Question $question,
         public array $acceptedAnswers,

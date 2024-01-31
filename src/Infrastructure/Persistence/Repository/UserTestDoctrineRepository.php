@@ -12,6 +12,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Ramsey\Uuid\UuidFactory;
 
+/**
+ * @extends ServiceEntityRepository<UserTest>
+ */
 final class UserTestDoctrineRepository extends ServiceEntityRepository implements UserTestRepository
 {
     public function __construct(

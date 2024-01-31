@@ -19,12 +19,19 @@ class Test
     #[Column(type: 'uuid')]
     private string $id;
 
+    /**
+     * @var Collection<int, Question>
+     */
     #[OneToMany(mappedBy: 'test', targetEntity: Question::class, cascade: ['persist'])]
     private Collection $questions;
 
     #[Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
+    /**
+     * @param TestId     $testId
+     * @param Question[] $questions
+     */
     public function __construct(
         TestId $testId,
         array $questions,
