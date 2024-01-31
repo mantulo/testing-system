@@ -20,7 +20,7 @@ class Question
     #[Id]
     #[Column(type: 'integer')]
     #[GeneratedValue]
-    private int $id;
+    private int|null $id;
 
     #[Column(type: 'string', length: 255)]
     private string $text;
@@ -46,12 +46,13 @@ class Question
     ) {
         Assert::allIsInstanceOf($answers, Answer::class);
 
+        $this->id = null;
         $this->text = $text;
         $this->test = $test;
         $this->answers = new ArrayCollection($answers);
     }
 
-    public function id(): int
+    public function id(): ?int
     {
         return $this->id;
     }

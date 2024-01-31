@@ -16,7 +16,7 @@ class Answer
     #[Id]
     #[Column]
     #[GeneratedValue]
-    private int $id;
+    private int|null $id;
 
     #[ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
     private Question $question;
@@ -32,6 +32,7 @@ class Answer
         string $text,
         bool $correct,
     ) {
+        $this->id = null;
         $this->question = $question;
         $this->text = $text;
         $this->correct = $correct;
