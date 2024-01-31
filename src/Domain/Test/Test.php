@@ -56,6 +56,11 @@ class Test
         return $this->questions->toArray();
     }
 
+    public function questionsCount(): int
+    {
+        return $this->questions->count();
+    }
+
     public function createdAt(): \DateTimeImmutable
     {
         return $this->createdAt;

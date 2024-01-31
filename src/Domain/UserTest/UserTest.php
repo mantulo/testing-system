@@ -94,7 +94,7 @@ class UserTest
             throw CouldNotFinishTest::causeTestAlreadyFinished();
         }
 
-        if (count($this->answersGroupedByQuestion()) !== count($this->test->questions())) {
+        if (count($this->answersGroupedByQuestion()) !== $this->test->questionsCount()) {
             throw CouldNotFinishTest::withIncompleteAnswers($this->id);
         }
 
