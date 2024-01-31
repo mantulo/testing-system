@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\UserTest;
 
-use App\Domain\Test\Question;
 use App\Domain\Test\Test;
-use App\Domain\Test\TestId;
 use App\Domain\UserTest\Exception\CouldNotFinishTest;
 use App\Domain\UserTest\User;
 use App\Domain\UserTest\UserTest;
