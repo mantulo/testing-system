@@ -77,7 +77,7 @@ class Question
     {
         return array_filter(
             $this->answers->toArray(),
-            fn(Answer $answer) => $answer->isCorrect()
+            fn (Answer $answer) => $answer->isCorrect()
         );
     }
 

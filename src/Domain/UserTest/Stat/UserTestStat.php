@@ -35,6 +35,7 @@ final readonly class UserTestStat
             foreach ($entry['answers'] as $answer) {
                 if (!$answer->isCorrect()) {
                     $incorrect[] = new AnswerDetails($question, $entry['answers'], $question->correctAnswers());
+
                     continue 2;
                 }
             }

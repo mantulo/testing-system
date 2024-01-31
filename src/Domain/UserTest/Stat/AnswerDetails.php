@@ -29,11 +29,11 @@ final class AnswerDetails
 
     public function expectedAnswers(): string
     {
-        return implode(', ', array_map(fn(Answer $answer) => $answer->text(), $this->expectedAnswers));
+        return implode(', ', array_map(fn (Answer $answer) => $answer->text(), $this->expectedAnswers));
     }
 
     public function acceptedAnswers(): string
     {
-        return implode(', ', array_map(fn(UserAnswer $userAnswer) => $userAnswer->text(), $this->acceptedAnswers));
+        return implode(', ', array_map(fn (UserAnswer $userAnswer) => $userAnswer->text(), $this->acceptedAnswers));
     }
 }
