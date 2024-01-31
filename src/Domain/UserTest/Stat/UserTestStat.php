@@ -19,6 +19,11 @@ final readonly class UserTestStat
     ) {
     }
 
+    /**
+     * @param array<array{'question': Question, 'answers': array<UserAnswer>}> $data
+     *
+     * @return self
+     */
     public static function fromData(array $data): self
     {
         $correct = [];

@@ -107,6 +107,9 @@ class UserTest
         return UserTestStat::fromData($this->answersGroupedByQuestion());
     }
 
+    /**
+     * @return array<int, array{'question': Question, 'answers': array<int, UserAnswer>}>
+     */
     public function answersGroupedByQuestion(): array
     {
         $groupedQuestions = [];
@@ -117,6 +120,21 @@ class UserTest
             $groupedQuestions[$answer->question()->id()]['answers'][] = $answer;
         }
 
-        return $groupedQuestions;
+        return array_values($groupedQuestions);
+    }
+
+    public function user(): User
+    {
+        return $this->user;
+    }
+
+    public function createdAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function finishedAt(): \DateTimeImmutable
+    {
+        return $this->finishedAt;
     }
 }

@@ -41,6 +41,11 @@ class UserAnswer
         $this->answer = $answer;
     }
 
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
     public function question(): Question
     {
         return $this->question;
@@ -60,6 +65,11 @@ class UserAnswer
     public function isCorrect(): bool
     {
         return $this->answer->isCorrect();
+    }
+
+    public function test(): UserTest
+    {
+        return $this->test;
     }
 
     public function text(): string
