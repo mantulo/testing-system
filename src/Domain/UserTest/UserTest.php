@@ -133,7 +133,7 @@ class UserTest
         return $this->createdAt;
     }
 
-    public function finishedAt(): \DateTimeImmutable
+    public function finishedAt(): ?\DateTimeImmutable
     {
         return $this->finishedAt;
     }

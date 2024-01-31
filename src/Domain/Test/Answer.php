@@ -43,7 +43,7 @@ class Answer
         return $this->id;
     }
 
-    public function questionId(): int
+    public function questionId(): ?int
     {
         return $this->question->id();
     }
