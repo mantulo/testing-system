@@ -30,9 +30,7 @@ final readonly class UserTestStat
         $incorrect = [];
 
         foreach ($data as $entry) {
-            /** @var UserAnswer $answer */
             foreach ($entry['answers'] as $answer) {
-                /** @var Question $question */
                 $question = $entry['question'];
 
                 if (!$answer->isCorrect()) {
