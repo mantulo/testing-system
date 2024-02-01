@@ -92,6 +92,14 @@ class Question
         return $questions;
     }
 
+    /**
+     * @return string[]
+     */
+    public function shuffledAnswersList(): array
+    {
+        return array_map(fn (Answer $answer) => $answer->text(), $this->shuffledAnswers());
+    }
+
     public function getAnswerByText(string $text): Answer
     {
         /** @var Answer $answer */
