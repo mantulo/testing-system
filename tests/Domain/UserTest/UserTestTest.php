@@ -17,7 +17,7 @@ use function PHPUnit\Framework\equalTo;
 
 final class UserTestTest extends TestCase
 {
-    public function testItAcceptSingleCorrectAnswer(): void
+    public function testItAcceptsSingleCorrectAnswer(): void
     {
         $repository = $this->fakeTestRepository();
         $testId = $repository->nextId();
@@ -47,7 +47,7 @@ final class UserTestTest extends TestCase
         assertThat($stat->incorrectAnsweredCount(), equalTo(0));
     }
 
-    public function testItAcceptMultipleCorrectAnswer(): void
+    public function testItAcceptsMultipleCorrectAnswers(): void
     {
         $repository = $this->fakeTestRepository();
         $testId = $repository->nextId();
@@ -79,7 +79,7 @@ final class UserTestTest extends TestCase
         assertThat($stat->answeredCount(), equalTo($test->questionsCount()));
     }
 
-    public function testItShouldAnswerWithCorrectAndIncorrectOption(): void
+    public function testItShouldAcceptAnswerWithCorrectAndIncorrectOption(): void
     {
         $repository = $this->fakeTestRepository();
         $testId = $repository->nextId();
@@ -112,7 +112,7 @@ final class UserTestTest extends TestCase
         assertThat($stat->answeredCount(), equalTo(1));
     }
 
-    public function testItShouldThrowsAnExceptionIfUserTriesFinishIncompleteTest(): void
+    public function testItShouldThrowsAnExceptionIfUserTriesToFinishIncompleteTest(): void
     {
         $repository = $this->fakeTestRepository();
 
