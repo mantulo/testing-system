@@ -118,4 +118,17 @@ class Question
     {
         return $this->test;
     }
+
+    public function getAnswerById(int $answerId): Answer
+    {
+        $answer = $this->answers->findFirst(fn (int $key, Answer $answer) => $answer->id() === $answerId);
+
+        if (!$answer instanceof Answer) {
+            throw new \InvalidArgumentException(
+                sprintf('There is no answer with id "%d" for the given question.', $answerId)
+            );
+        }
+
+        return $answer;
+    }
 }

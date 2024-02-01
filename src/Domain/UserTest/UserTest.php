@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Webmozart\Assert\Assert;
 
 #[Entity]
 class UserTest
@@ -88,6 +89,22 @@ class UserTest
         $this->answers->add($newUserAnswer);
     }
 
+    /**
+     * @param Question $question
+     * @param Answer[] $answers
+     *
+     * @return void
+     */
+    public function acceptMultipleAnswers(Question $question, array $answers): void
+    {
+        Assert::allIsInstanceOf($answers, Answer::class);
+        Assert::minCount($answers, 1);
+
+        foreach ($answers as $answer) {
+            $this->acceptAnswer($question, $answer);
+        }
+    }
+
     public function markAsFinished(): void
     {
         if ($this->finished) {
@@ -136,5 +153,10 @@ class UserTest
     public function finishedAt(): ?\DateTimeImmutable
     {
         return $this->finishedAt;
+    }
+
+    public function getQuestionById(int $questionId): Question
+    {
+        return $this->test->getQuestionBy($questionId);
     }
 }
