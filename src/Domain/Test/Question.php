@@ -102,16 +102,15 @@ class Question
 
     public function getAnswerByText(string $text): Answer
     {
-        /** @var Answer $answer */
-        foreach ($this->answers as $answer) {
-            if ($answer->text() === $text) {
-                return $answer;
-            }
+        $answer = $this->answers->findFirst(fn (int $key, Answer $answer) => $answer->text() === $text);
+
+        if (!$answer instanceof Answer) {
+            throw new \InvalidArgumentException(
+                sprintf('There is no answer "%s" in test "%s".', $text, $this->test->id()->asString())
+            );
         }
 
-        throw new \RuntimeException(
-            sprintf('There is no answer "%s" in test "%s".', $text, $this->test->id()->asString())
-        );
+        return $answer;
     }
 
     public function test(): Test
