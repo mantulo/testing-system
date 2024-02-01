@@ -92,7 +92,7 @@ class Question
         return $questions;
     }
 
-    public function answerWithText(string $text): Answer
+    public function getAnswerByText(string $text): Answer
     {
         /** @var Answer $answer */
         foreach ($this->answers as $answer) {
