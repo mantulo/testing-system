@@ -1,4 +1,6 @@
 {
+    "name": "mantulo/testting-system",
+    "description": "Simple testing system provides functionality to check a test with single or multiple right question.",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
