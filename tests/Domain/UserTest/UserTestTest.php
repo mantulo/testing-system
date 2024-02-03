@@ -25,9 +25,6 @@ final class UserTestTest extends TestCase
         $test = new Test($testId, []);
         $question1 = $test->addQuestion('1 + 1');
 
-        // simulates generation of question ids
-        $repository->save($test);
-
         $correctAnswer1 = $question1->addAnswer('2', correct: true);
         $correctAnswer2 = $question1->addAnswer('2 + 0', correct: true);
         $invalidAnswer1 = $question1->addAnswer('3', correct: false);
@@ -54,9 +51,6 @@ final class UserTestTest extends TestCase
 
         $test = new Test($testId, []);
         $question1 = $test->addQuestion('2 + 2');
-
-        // simulates generation of question ids
-        $repository->save($test);
 
         $invalidAnswer1 = $question1->addAnswer('2', correct: false);
         $invalidAnswer2 = $question1->addAnswer('3', correct: false);
@@ -86,9 +80,6 @@ final class UserTestTest extends TestCase
 
         $test = new Test($testId, []);
         $question1 = $test->addQuestion('2 + 2');
-
-        // simulates generation of question ids
-        $repository->save($test);
 
         $invalidAnswer1 = $question1->addAnswer('2', correct: false);
         $invalidAnswer2 = $question1->addAnswer('3', correct: false);
@@ -123,8 +114,6 @@ final class UserTestTest extends TestCase
         $question1->addAnswer('2', correct: true);
         $question1->addAnswer('3', correct: false);
         $question1->addAnswer('3', correct: false);
-
-        $repository->save($test);
 
         $userTest = new UserTest(
             $this->nextUserTestId(),

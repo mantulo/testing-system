@@ -133,8 +133,9 @@ class UserTest
 
         /** @var UserAnswer $answer */
         foreach ($this->answers as $answer) {
-            $groupedQuestions[$answer->question()->id()]['question'] = $answer->question();
-            $groupedQuestions[$answer->question()->id()]['answers'][] = $answer;
+            $questionHash = spl_object_hash($answer->question());
+            $groupedQuestions[$questionHash]['question'] = $answer->question();
+            $groupedQuestions[$questionHash]['answers'][] = $answer;
         }
 
         return array_values($groupedQuestions);

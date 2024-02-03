@@ -36,12 +36,6 @@ final readonly class FakeTestRepository implements TestRepository
 
     public function save(Test $test): void
     {
-        // simulates saving to generate questions id
-        foreach ($test->questions() as $id => $question) {
-            $reflection = new \ReflectionClass(get_class($question));
-            $property = $reflection->getProperty('id');
-            $property->setAccessible(true);
-            $property->setValue($question, (int) $id + 1);
-        }
+        // noop
     }
 }
