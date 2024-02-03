@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\UseCase\AnswerQuestion;
 
-final class AnswerQuestion
+use App\Domain\UserTest\UserTestId;
+use Webmozart\Assert\Assert;
+
+final readonly class AnswerQuestion
 {
     /**
      * @param string     $testId
@@ -12,9 +15,29 @@ final class AnswerQuestion
      * @param array<int> $answerIds
     */
     public function __construct(
-        public string $testId,
-        public int $questionId,
-        public array $answerIds,
+        private string $testId,
+        private int $questionId,
+        private array $answerIds,
     ) {
+    }
+
+    public function userTestId(): UserTestId
+    {
+        return UserTestId::fromString($this->testId);
+    }
+
+    public function questionId(): int
+    {
+        return $this->questionId;
+    }
+
+    /**
+     * @return array<int>
+     */
+    public function answerIds(): array
+    {
+        Assert::allInteger($this->answerIds);
+
+        return $this->answerIds;
     }
 }

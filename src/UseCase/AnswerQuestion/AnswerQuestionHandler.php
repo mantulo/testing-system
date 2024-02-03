@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\UseCase\AnswerQuestion;
 
-use App\Domain\UserTest\UserTestId;
 use App\Domain\UserTest\UserTestRepository;
 
 final readonly class AnswerQuestionHandler
@@ -16,13 +15,12 @@ final readonly class AnswerQuestionHandler
 
     public function handle(AnswerQuestion $request): void
     {
-        $userTestId = UserTestId::fromString($request->testId);
-        $userTest = $this->userTestRepository->byId($userTestId);
-        $question = $userTest->getQuestionById($request->questionId);
+        $userTest = $this->userTestRepository->byId($request->userTestId());
+        $question = $userTest->getQuestionById($request->questionId());
 
         $answers = [];
 
-        foreach ($request->answerIds as $answerId) {
+        foreach ($request->answerIds() as $answerId) {
             $answers[] = $question->getAnswerById($answerId);
         }
 

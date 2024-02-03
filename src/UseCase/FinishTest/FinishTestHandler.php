@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\UseCase\FinishTest;
 
-use App\Domain\UserTest\UserTestId;
 use App\Domain\UserTest\UserTestRepository;
 
 final readonly class FinishTestHandler
@@ -14,11 +13,9 @@ final readonly class FinishTestHandler
     ) {
     }
 
-    public function handle(FinishTest $command): void
+    public function handle(FinishTest $request): void
     {
-        $testId = new UserTestId($command->testId);
-
-        $test = $this->repository->byId($testId);
+        $test = $this->repository->byId($request->testId());
         $test->markAsFinished();
 
         $this->repository->save($test);
