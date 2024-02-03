@@ -38,14 +38,13 @@ class Answer
         $this->correct = $correct;
     }
 
-    public function id(): ?int
+    public function id(): ?AnswerId
     {
-        return $this->id;
-    }
+        if ($this->id !== null) {
+            return AnswerId::fromInt($this->id);
+        }
 
-    public function questionId(): ?int
-    {
-        return $this->question->id();
+        return null;
     }
 
     public function question(): Question

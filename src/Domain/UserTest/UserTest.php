@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Domain\UserTest;
 
 use App\Domain\Test\Answer;
+use App\Domain\Test\AnswerId;
 use App\Domain\Test\Question;
+use App\Domain\Test\QuestionId;
 use App\Domain\Test\Test;
 use App\Domain\UserTest\Exception\CouldNotFinishTest;
 use App\Domain\UserTest\Stat\UserTestStat;
@@ -90,17 +92,20 @@ class UserTest
     }
 
     /**
-     * @param Question $question
-     * @param Answer[] $answers
+     * @param QuestionId $questionId
+     * @param AnswerId[] $answerIds
      *
      * @return void
      */
-    public function acceptMultipleAnswers(Question $question, array $answers): void
+    public function acceptMultipleAnswersByIds(QuestionId $questionId, array $answerIds): void
     {
-        Assert::allIsInstanceOf($answers, Answer::class);
-        Assert::minCount($answers, 1);
+        Assert::allIsInstanceOf($answerIds, AnswerId::class);
+        Assert::minCount($answerIds, 1);
 
-        foreach ($answers as $answer) {
+        $question = $this->getQuestionById($questionId);
+
+        foreach ($answerIds as $answerId) {
+            $answer = $question->getAnswerById($answerId);
             $this->acceptAnswer($question, $answer);
         }
     }
@@ -156,8 +161,8 @@ class UserTest
         return $this->finishedAt;
     }
 
-    public function getQuestionById(int $questionId): Question
+    private function getQuestionById(QuestionId $questionId): Question
     {
-        return $this->test->getQuestionBy($questionId);
+        return $this->test->getQuestionById($questionId);
     }
 }

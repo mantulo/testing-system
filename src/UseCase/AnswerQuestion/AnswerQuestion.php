@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase\AnswerQuestion;
 
+use App\Domain\Test\AnswerId;
+use App\Domain\Test\QuestionId;
 use App\Domain\UserTest\UserTestId;
 use Webmozart\Assert\Assert;
 
@@ -26,18 +28,18 @@ final readonly class AnswerQuestion
         return UserTestId::fromString($this->testId);
     }
 
-    public function questionId(): int
+    public function questionId(): QuestionId
     {
-        return $this->questionId;
+        return QuestionId::fromInt($this->questionId);
     }
 
     /**
-     * @return array<int>
+     * @return AnswerId[]
      */
     public function answerIds(): array
     {
         Assert::allInteger($this->answerIds);
 
-        return $this->answerIds;
+        return array_map(fn (int $id) => AnswerId::fromInt($id), $this->answerIds);
     }
 }

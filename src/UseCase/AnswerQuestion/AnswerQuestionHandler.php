@@ -16,15 +16,8 @@ final readonly class AnswerQuestionHandler
     public function handle(AnswerQuestion $request): void
     {
         $userTest = $this->userTestRepository->byId($request->userTestId());
-        $question = $userTest->getQuestionById($request->questionId());
+        $userTest->acceptMultipleAnswersByIds($request->questionId(), $request->answerIds());
 
-        $answers = [];
-
-        foreach ($request->answerIds() as $answerId) {
-            $answers[] = $question->getAnswerById($answerId);
-        }
-
-        $userTest->acceptMultipleAnswers($question, $answers);
         $this->userTestRepository->save($userTest);
     }
 }

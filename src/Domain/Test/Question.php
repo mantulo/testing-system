@@ -52,9 +52,13 @@ class Question
         $this->answers = new ArrayCollection($answers);
     }
 
-    public function id(): ?int
+    public function id(): ?QuestionId
     {
-        return $this->id;
+        if ($this->id !== null) {
+            return QuestionId::fromInt($this->id);
+        }
+
+        return null;
     }
 
     public function text(): string
@@ -118,13 +122,15 @@ class Question
         return $this->test;
     }
 
-    public function getAnswerById(int $answerId): Answer
+    public function getAnswerById(AnswerId $answerId): Answer
     {
-        $answer = $this->answers->findFirst(fn (int $key, Answer $answer) => $answer->id() === $answerId);
+        $answer = $this->answers->findFirst(
+            fn (int $key, Answer $answer) => $answer->id() !== null && $answerId->equals($answer->id())
+        );
 
         if (!$answer instanceof Answer) {
             throw new \InvalidArgumentException(
-                sprintf('There is no answer with id "%d" for the given question.', $answerId)
+                sprintf('There is no answer with id "%s" for the given question.', $answerId->asString())
             );
         }
 

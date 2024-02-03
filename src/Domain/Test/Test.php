@@ -56,13 +56,15 @@ class Test
         return $this->questions->toArray();
     }
 
-    public function getQuestionBy(int $id): Question
+    public function getQuestionById(QuestionId $id): Question
     {
-        $question = $this->questions->findFirst(fn (int $key, Question $question) => $question->id() === $id);
+        $question = $this->questions->findFirst(
+            fn (int $key, Question $question) => $question->id() !== null && $id->equals($question->id())
+        );
 
         if (!$question instanceof Question) {
             throw new \InvalidArgumentException(
-                sprintf('There is no question with "%d".', $id)
+                sprintf('There is no question with "%s".', $id->asString())
             );
         }
 
